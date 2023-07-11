@@ -74,6 +74,8 @@ export async function build(c: BuildConfig, options: {
         throw new Error('Yarn 2 is not supported yet. Try using Yarn 1, or Yarn 3')
       } else {
         try {
+          await exec('yarn --version', {cwd: c.workspace()})
+          await exec('yarn plugin import workspace-tools ', {cwd: c.workspace()})
           await exec('yarn workspaces focus --production', {cwd: c.workspace()})
         } catch (error: unknown) {
           if (error instanceof Error && error.message.includes('Command not found')) {
